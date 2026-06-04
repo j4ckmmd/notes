@@ -13,3 +13,5 @@ source ~/.zshrc => Sirve para recargar el archivo y aplicar los cambios
 
 ping -c 1 1.0.0.0 => Hacer un ping
 TTL => linux 64 - Windows 128
+
+sudo timedatectl set-timezone America/Lima => Actualizar la hora en linux
