@@ -40,3 +40,18 @@ Listar direcciones más sobre todo la parte OUI
 ```bash
 macchanger -l
 ```
+
+### Protocolos comunes (UDP, TCP) y el famoso Three-Way Hanfshake
+
+**TCP:** Es un protoco oriendato a conexión, la gran mayoría de dispositivos lo utilizan para comunicarse a travéz de internet. Es uno de los principales protocolos en redes TCP.
+
+**UDP:** Proporciona verificación de errores, además de garantizar la entrega de datos y que los paquetes se entreguen en el orden en el que fueron enviados. Por el contrario UDP es un protocolo sin conexión. A diferencia del protocolo TCP no garantiza la entrega de datos ni verifica los errores, el protocolo UDP envía continuamente datos al destinatario normalmente pero si comprobar que este los reciba. Normalmente cuando hablamos de TCP hablamos del famoso SYN > SYN ACK > ACK.
+
+Ejecutar wireshark en background
+```bash
+wireshark &> /dev/null & disown
+```
+Ponerse en escucha con Netcat:
+```bash
+nc -nlvp 4646 
+```
