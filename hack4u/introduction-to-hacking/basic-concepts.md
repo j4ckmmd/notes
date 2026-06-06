@@ -51,7 +51,14 @@ Ejecutar wireshark en background
 ```bash
 wireshark &> /dev/null & disown
 ```
+Estaremos motinorizando la loopback
 Ponerse en escucha con Netcat:
 ```bash
 nc -nlvp 4646 
 ```
+Conectarse con Netcat
+```bash
+nc 192.168.18.16 4646
+```
+Observamos los tres pasos que se ejecutan al momento de entablar una conexión por TCP SYN > SYN ACK > ACK.
+<img width="1735" height="122" alt="image" src="https://github.com/user-attachments/assets/d2486b11-e6a7-450c-9610-c7a9bba89ab9" />
