@@ -22,3 +22,8 @@ Tagear una imagen para subirlo a un repo de Artifact Registry
 ```sh
 docker tag {image_name}:{tag_name} {region}-docker-pkg.dev/{project_id}/{repo_id}/{tag_name}
 ```
+
+Subir imagen
+```sh
+docker push {image_name}
+```
