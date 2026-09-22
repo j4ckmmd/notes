@@ -20,8 +20,8 @@ Benefits of cloud computing
 - Cost-effectiveness
 
 IT infrastructure implementations
-- Ob-premises
-- Private cloud
-- Publix cloud
-- Hybrid cloud
-- Multicloud
+- Ob-premises: Servidores físicos
+- Private cloud: ambiente dedicado privado en una infrastructura tuya o agena
+- Public cloud: Provedores de cloud como GCP, azure, AWS, etc
+- Hybrid cloud: Combinación de nube pública y privada u onpremise
+- Multicloud: Utiliza servicios de dos o más proveedores de nube pública o privada al mismo tiempo
