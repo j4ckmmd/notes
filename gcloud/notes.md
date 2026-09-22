@@ -36,6 +36,8 @@ Las letras al final es la zona que se encuentra más actualizada.
 - Vision API: Analiza imágenes y detecta objetos o texto.
 - Vertex AI: Desarrolla, entrena y despliega modelos de IA/ML.
 
+## Cloud Shell
+
 Cloud Sheel es gratis y ya tiene instalado gcloud
 
 Obtener ayuda con respecto a compute engine
@@ -46,3 +48,12 @@ Lista las instancias de maquinas virtuales
 ```sh
 gcloud compute instances list
 ```
+
+## Políticas
+
+- Google acount or Cloud Identity user: (test@gmail.com) or (test@example.com)
+- Service account: Cuenta en la nube para servicios de Google Cloud (test@project_id.iam.gserviceaccount.com)
+- Google group: test@googlegroups.com
+- Cloud Identity or G Suite domain: example.com
+
+
