@@ -56,4 +56,12 @@ gcloud compute instances list
 - Google group: test@googlegroups.com
 - Cloud Identity or G Suite domain: example.com
 
+Objetos de cloud IAM
+- Organizaciones
+- Folders
+- Proyectos
+- Roles
+- Miembros
+- Recursos
+- Productos
 
