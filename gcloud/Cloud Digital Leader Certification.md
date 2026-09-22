@@ -18,3 +18,10 @@ Benefits of cloud computing
 - Strategic value
 - Security
 - Cost-effectiveness
+
+IT infrastructure implementations
+- Ob-premises
+- Private cloud
+- Publix cloud
+- Hybrid cloud
+- Multicloud
