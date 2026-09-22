@@ -27,3 +27,6 @@ IT infrastructure implementations
 - Multicloud: Utiliza servicios de dos o más proveedores de nube pública o privada al mismo tiempo
 
 ¿En qué casos se debería usar un servidor on-premise?
+
+VM cloud era:
+- Se remplaza el harware propio por máquinas virtuales
