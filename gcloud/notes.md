@@ -35,3 +35,14 @@ Las letras al final es la zona que se encuentra más actualizada.
 - Natural Language API: Analiza y comprende texto.
 - Vision API: Analiza imágenes y detecta objetos o texto.
 - Vertex AI: Desarrolla, entrena y despliega modelos de IA/ML.
+
+Cloud Sheel es gratis y ya tiene instalado gcloud
+
+Obtener ayuda con respecto a compute engine
+```sh
+gcloud compute --help
+```
+Lista las instancias de maquinas virtuales
+```sh
+gcloud compute instances list
+```
