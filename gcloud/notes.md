@@ -65,3 +65,6 @@ Objetos de cloud IAM
 - Recursos
 - Productos
 
+## Gerariquía de Google Cloud
+<img width="1091" height="660" alt="image" src="https://github.com/user-attachments/assets/aa81c261-92fd-4ff0-90ef-75f0785be899" />
+
