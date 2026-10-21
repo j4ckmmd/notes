@@ -3,11 +3,6 @@ Login con Google Cloud
 gcloud auth login
 ```
 
-Setear proyecto
-```sh
-gcloud config set project datta-app-dev
-```
-
 Ver mi cuenta autenticada
 ```sh
 gcloud auth list
@@ -36,4 +31,9 @@ gcloud projects list
 Obtener el proyecto actual que estamos usando
 ```sh
 gcloud config get-value project
+```
+
+Setear proyecto
+```sh
+gcloud config set project {project_name}
 ```
