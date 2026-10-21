@@ -4,4 +4,12 @@ Es una plataforma de computación sin servidores (serverless) de google cloud qu
 
 
 ## ¿Qué es un heald check?
+
 Las comprobaciones de estado de Cloud Run se aseguran de que tus instancias de contenedores se ejecuten correctamente y puedan servir tráfico. Con las comprobaciones de estado de Cloud Run, puedes personalizar cuando está listo tu contenedor para recibir solicitudes y cuando se debe considerar que no está en buen estado para que sea necesario reiniciarlo.
+
+## Tipos de Heald Chekcs
+
+#### Startup probe (Comprobadores de inicio)
+Las comprobaciones de inicio determinan si el contenedor se a iniciado y está listo para aceptar el tráfico.
+
+- Cuando configuras una comprobación de inicio
