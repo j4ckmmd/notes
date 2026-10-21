@@ -24,15 +24,6 @@ Worker pools es lo más reciente. Revisa en la documentación si ya está dispon
 - **Revisiones y tráfico:** cada despliegue crea una revisión inmutable y puedes repartir tráfico entre ellas (canary, rollback inmediato).
 - **Integraciones:** Cloud SQL, VPC, Secret Manager, Eventarc, Pub/Sub, IAM, dominios personalizados, balanceadores, etc.
 
-## Estructura
-```
-Cloud Run
-├── Services   
-├── Functions  
-├── Jobs       
-└── Worker pools
-```
-
 Las imágenes de todos ellos se guardan en **Artifact Registry** (el reemplazo de `gcr.io`), y los health checks. aplican sobre todo a los **services**.
 
 ## Cuándo no es la mejor opción
