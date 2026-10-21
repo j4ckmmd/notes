@@ -1,32 +1,42 @@
-## ¿Qué es cloud Run?
+# Cloud Run
 
-Es una plataforma de computación sin servidores (serverless) de google cloud que permite ejecutar código empaquetado en contenedores de forma automática, sin necesidad de administrar máquinas virtuales o clústeres.
+**Cloud Run** es la plataforma **serverless de contenedores** de Google Cloud. Tú entregas código o un contenedor, y Google lo ejecuta, lo escala (incluso a cero) y te cobra solo por lo que usas. No hay servidores ni clusters que administrar.
 
-## Health checks en Cloud Run
+En los últimos años dejó de ser "solo un sitio donde correr un contenedor" y absorbió a Cloud Functions. Ahora es **un paraguas con varios tipos de recursos**:
 
-Cloud Run usa **probes** (sondas) para saber si un contenedor ya arrancó y si sigue funcionando bien. Se configuran por contenedor, en el `service.yaml` o con `gcloud`.
+## Los tipos de recurso
 
-#### 1. Startup probe (sonda de arranque)
+| Recurso | Qué es | Se activa con | Ejemplo |
+|---|---|---|---|
+| **Services** | Un contenedor que atiende peticiones HTTP/gRPC/WebSocket con una URL | Peticiones | API REST, web app, backend móvil |
+| **Functions** | Una función de código; Google crea el contenedor por ti | HTTP o eventos (Eventarc) | "Cuando se suba un archivo, procésalo" |
+| **Jobs** | Un contenedor que corre una tarea **hasta terminar**, sin URL | Manual, Scheduler o workflows | ETL nocturno, migraciones, procesamiento por lotes |
+| **Worker pools** | Contenedores que corren continuamente sin recibir HTTP | Siempre encendidos | Consumidores de colas (Pub/Sub, Kafka) |
 
-**Para qué sirve:** indica cuándo el contenedor terminó de arrancar. Mientras no la supere, Cloud Run **no le envía tráfico** y no ejecuta la liveness probe.
+Worker pools es lo más reciente. Revisa en la documentación si ya está disponible de forma general en tu región.
 
-- **Tipos:** `TCP`, `HTTP` (HTTP/1) y `gRPC`.
-- **Por defecto:** si no configuras ninguna, Cloud Run aplica una **TCP startup probe automática** contra el puerto del contenedor. Esa probe solo comprueba que el puerto esté abierto.
-- **Si falla:** la instancia se apaga y se marca como fallida. Si es una revisión nueva, el despliegue falla.
-- **Cuándo usarla:** con apps que tardan en arrancar, por ejemplo Java/Spring, apps que cargan modelos de ML o que calientan cachés. Así no se manda tráfico antes de tiempo.
+## Qué lo caracteriza
 
-#### 2. Liveness probe (sonda de vida)
+- **Escala a cero:** sin tráfico no hay instancias ni costo de cómputo. Con tráfico escala hasta miles de instancias.
+- **Cualquier lenguaje:** si corre en un contenedor Linux, corre en Cloud Run. Con `--source` ni siquiera necesitas un `Dockerfile`, porque usa buildpacks.
+- **Pago por uso:** CPU y memoria por segundo, más las peticiones.
+- **GPUs:** se pueden adjuntar GPUs (NVIDIA L4 y otras) para **inferencia de IA**, por ejemplo servir modelos open source.
+- **Revisiones y tráfico:** cada despliegue crea una revisión inmutable y puedes repartir tráfico entre ellas (canary, rollback inmediato).
+- **Integraciones:** Cloud SQL, VPC, Secret Manager, Eventarc, Pub/Sub, IAM, dominios personalizados, balanceadores, etc.
 
-**Para qué sirve:** detecta un contenedor que sigue corriendo pero ya no funciona bien (un deadlock, un hilo colgado o una conexión a BD rota).
+## Estructura
+```
+Cloud Run
+├── Services   
+├── Functions  
+├── Jobs       
+└── Worker pools
+```
 
-- **Tipos:** `HTTP` y `gRPC`. TCP no sirve aquí, porque un puerto abierto no garantiza que la app responda bien.
-- **Por defecto:** no hay ninguna; tienes que configurarla tú.
-- **Si falla:** Cloud Run **reinicia (apaga) la instancia** y crea otra.
-- **Cuándo usarla:** en servicios largos donde la app puede quedarse "zombi" sin que el proceso muera.
+Las imágenes de todos ellos se guardan en **Artifact Registry** (el reemplazo de `gcr.io`), y los health checks. aplican sobre todo a los **services**.
 
-#### 3. Readiness probe (sonda de disponibilidad)
+## Cuándo no es la mejor opción
 
-Es más reciente en Cloud Run (llegó en *preview*). Revisa en la documentación si ya está en GA para tu caso.
-
-- **Para qué sirve:** saca temporalmente una instancia del balanceo de tráfico **sin reiniciarla**, por ejemplo cuando está saturada o pierde una dependencia.
-- **Tipos:** `HTTP` y `gRPC`.
+- Necesitas control total del sistema operativo o procesos muy especiales → **Compute Engine** (VMs).
+- Tienes muchos microservicios con orquestación compleja, *sidecars* avanzados o necesitas Kubernetes → **GKE**.
+- Un sitio puramente estático → **Firebase Hosting** o **Cloud Storage + CDN**.
