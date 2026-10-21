@@ -13,3 +13,8 @@ Las comprobaciones de estado de Cloud Run se aseguran de que tus instancias de c
 Las comprobaciones de inicio determinan si el contenedor se a iniciado y está listo para aceptar el tráfico.
 
 - Cuando configuras una comprobación de inicio
+
+
+
+## Dicionario
+- Vivacidad: Es la cualidad de ser viváz, se refiere a la energía, el dinamismo el ingenio o la rapidéz de algo, así como el brillo, la intensidad y el color de las cosas.
