@@ -2,27 +2,31 @@
 
 Es una plataforma de computación sin servidores (serverless) de google cloud que permite ejecutar código empaquetado en contenedores de forma automática, sin necesidad de administrar máquinas virtuales o clústeres.
 
+## Health checks en Cloud Run
 
-## ¿Qué es un heald check?
+Cloud Run usa **probes** (sondas) para saber si un contenedor ya arrancó y si sigue funcionando bien. Se configuran por contenedor, en el `service.yaml` o con `gcloud`.
 
-Las comprobaciones de estado de Cloud Run se aseguran de que tus instancias de contenedores se ejecuten correctamente y puedan servir tráfico. Con las comprobaciones de estado de Cloud Run, puedes personalizar cuando está listo tu contenedor para recibir solicitudes y cuando se debe considerar que no está en buen estado para que sea necesario reiniciarlo.
+#### 1. Startup probe (sonda de arranque)
 
-## Tipos de Heald Chekcs
+**Para qué sirve:** indica cuándo el contenedor terminó de arrancar. Mientras no la supere, Cloud Run **no le envía tráfico** y no ejecuta la liveness probe.
 
-#### Startup probe (Comprobadores de inicio)
-Las comprobaciones de inicio determinan si el contenedor se a iniciado y está listo para aceptar el tráfico.
+- **Tipos:** `TCP`, `HTTP` (HTTP/1) y `gRPC`.
+- **Por defecto:** si no configuras ninguna, Cloud Run aplica una **TCP startup probe automática** contra el puerto del contenedor. Esa probe solo comprueba que el puerto esté abierto.
+- **Si falla:** la instancia se apaga y se marca como fallida. Si es una revisión nueva, el despliegue falla.
+- **Cuándo usarla:** con apps que tardan en arrancar, por ejemplo Java/Spring, apps que cargan modelos de ML o que calientan cachés. Así no se manda tráfico antes de tiempo.
 
-- Cuando configuras una comprobación de inicio, las comprobaciones de vivacidad y preparación se inhabilitan hasta que la comprobación de inicio termina que el contenedor se ha iniciado, para evitar interferencias con el inicio del servicio.
-- Las sondas de inicio son especialmente útiles si usas las comprobaciones de actividad en contendores que tardan en iniciarse, ya que evitan que los contenedores se cierren prematuramente antes de que estén en funcionamiento.
+#### 2. Liveness probe (sonda de vida)
 
-#### Liveness probe (Compronaciones de vivacidad)
-Las comprobaciones de vivacidad determinan si se debe reiniciar un contenedor
-- En este caso, reiniciar un contenedor puede aumentar la disponibilidad del servicio en caso haya errores.
-- Las sondas de actividad están diseñadas para reiniciar instancias individuales que no se pueden recuperar de ninguna otra forma. Deben usarse principalmente para errores irrecuperables de instancias, como detectar interbloqueo en el que se está ejecutando un servicio, pero no puede avanzar. Puedes requerir una prueba de actividad para cada contenedor mediante políticas de organización.
+**Para qué sirve:** detecta un contenedor que sigue corriendo pero ya no funciona bien (un deadlock, un hilo colgado o una conexión a BD rota).
 
-#### Readiness check (Comprobaciones de preparación)
-- Las sondas de disponibilidad determinan cuándo debe servir tráfico una instancia de tu servicio de Cloud Run. Las comprobaciones de disponibilidad empiezan después de que la sonda de inicio del contenedor se haya completado correctamente. Si una instancia no supera su prueba de disponibilidad más allá del valor de umbral de errores que hayas configurado, Cloud Run dejará de enviarle tráfico nuevo. Cloud Run no termina la instancia y envía tráfico de vuelta a la instancia cuando empieza a superar de nuevo la comprobación de disponibilidad.
+- **Tipos:** `HTTP` y `gRPC`. TCP no sirve aquí, porque un puerto abierto no garantiza que la app responda bien.
+- **Por defecto:** no hay ninguna; tienes que configurarla tú.
+- **Si falla:** Cloud Run **reinicia (apaga) la instancia** y crea otra.
+- **Cuándo usarla:** en servicios largos donde la app puede quedarse "zombi" sin que el proceso muera.
 
-## Dicionario
-- Vivacidad: Es la cualidad de ser viváz, se refiere a la energía, el dinamismo el ingenio o la rapidéz de algo, así como el brillo, la intensidad y el color de las cosas.
-- Prematuro: Algo ocurre, se ejecuta, se pública o nace antes del tiempo previsto, de la maduración necesaria o del momento óptimo. 
+#### 3. Readiness probe (sonda de disponibilidad)
+
+Es más reciente en Cloud Run (llegó en *preview*). Revisa en la documentación si ya está en GA para tu caso.
+
+- **Para qué sirve:** saca temporalmente una instancia del balanceo de tráfico **sin reiniciarla**, por ejemplo cuando está saturada o pierde una dependencia.
+- **Tipos:** `HTTP` y `gRPC`.
