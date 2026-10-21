@@ -27,3 +27,13 @@ Subir imagen
 ```sh
 docker push {image_name}
 ```
+
+Listar proyectos
+```sh
+gcloud projects list
+```
+
+Obtener el proyecto actual que estamos usando
+```sh
+gcloud config get-value project
+```
